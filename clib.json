@@ -1,0 +1,15 @@
+{
+    "name": "spinlock",
+    "version": "0.0.0",
+    "repo": "goodcleanfun/spinlock",
+    "description": "Simple minimal spinlock using atomics",
+    "keywords": ["spinlock", "locking", "atomic", "cas", "concurrency", "threading"],
+    "license": "MIT",
+    "development": {
+        "silentbicycle/greatest": "*",
+        "goodcleanfun/threading": "*"
+    },
+    "src": [
+      "src/spinlock.h"
+    ]
+  }
