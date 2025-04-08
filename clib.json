@@ -1,6 +1,6 @@
 {
     "name": "spinlock",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "repo": "goodcleanfun/spinlock",
     "description": "Simple minimal spinlock using atomics",
     "keywords": ["spinlock", "locking", "atomic", "cas", "concurrency", "threading"],
