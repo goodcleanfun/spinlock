@@ -44,6 +44,10 @@ TEST spinlock_multithread_test(void) {
         thrd_join(threads[i], NULL);
     }
 
+    spinlock_lock(&lock);
+    ASSERT_FALSE(spinlock_trylock(&lock));
+    spinlock_unlock(&lock);
+
     ASSERT_EQ(10000, counter); // 10 threads x 1000 increments each
 
     PASS();
