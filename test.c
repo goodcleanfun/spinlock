@@ -34,7 +34,7 @@ int increment_counter(void *arg) {
 TEST spinlock_multithread_test(void) {
     thrd_t threads[10];
 
-    spinlock_init(lock);
+    spinlock_t lock = SPINLOCK_INIT;
 
     counter = 0;
     for (int i = 0; i < 10; i++) {

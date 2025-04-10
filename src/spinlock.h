@@ -4,7 +4,7 @@
 #include <stdatomic.h>
 
 typedef atomic_flag spinlock_t;
-#define spinlock_init(name) spinlock_t name = ATOMIC_FLAG_INIT
+#define SPINLOCK_INIT ATOMIC_FLAG_INIT
 
 static inline void spinlock_lock(spinlock_t *lock) {
     do {} while (atomic_flag_test_and_set(lock));
