@@ -68,7 +68,7 @@ jobs:
       - name: Install deps
         run: |
           mkdir -p deps\cpu_relax
-          curl -L https://github.com/goodcleanfun/cpu_relax/raw/release/cpu_relax.h -o deps\cpu_relax\cpu_relax.h
+          curl -L https://raw.githubusercontent.com/goodcleanfun/cpu_relax/refs/heads/main/src/cpu_relax.h -o deps\cpu_relax\cpu_relax.h
           mkdir -p deps\greatest
           curl -L https://github.com/silentbicycle/greatest/raw/release/greatest.h -o deps\greatest\greatest.h
           mkdir -p deps\threading
@@ -92,7 +92,7 @@ jobs:
       - name: Download greatest.h
         run: |
           mkdir -p deps/cpu_relax
-          curl -L https://github.com/goodcleanfun/cpu_relax/raw/release/cpu_relax.h -o deps/cpu_relax/cpu_relax.h
+          curl -L https://raw.githubusercontent.com/goodcleanfun/cpu_relax/refs/heads/main/src/cpu_relax.h -o deps/cpu_relax/cpu_relax.h
           mkdir -p deps/greatest
           curl -L https://github.com/silentbicycle/greatest/raw/release/greatest.h -o deps/greatest/greatest.h
           mkdir -p deps/threading
