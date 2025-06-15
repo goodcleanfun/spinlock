@@ -3,11 +3,15 @@
 
 #include <stdatomic.h>
 #include <stdbool.h>
+#include "cpu_relax/cpu_relax.h"
+
 typedef atomic_flag spinlock_t;
 #define SPINLOCK_INIT ATOMIC_FLAG_INIT
 
 static inline void spinlock_lock(spinlock_t *lock) {
-    do {} while (atomic_flag_test_and_set(lock));
+    while (atomic_flag_test_and_set(lock)) {
+        cpu_relax();
+    }
 }
 
 static inline bool spinlock_trylock(spinlock_t *lock) {

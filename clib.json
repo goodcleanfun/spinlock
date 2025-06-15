@@ -9,6 +9,9 @@
         "silentbicycle/greatest": "*",
         "goodcleanfun/threading": "*"
     },
+    "dependencies": {
+        "goodcleanfun/cpu_relax": "*"
+    },
     "src": [
       "src/spinlock.h"
     ]
