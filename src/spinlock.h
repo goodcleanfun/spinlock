@@ -1,6 +1,7 @@
 #ifndef SPINLOCK_H
 #define SPINLOCK_H
 
+#include <stdint.h>
 #include <stdatomic.h>
 #include <stdbool.h>
 #include "cpu_relax/cpu_relax.h"
