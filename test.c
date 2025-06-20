@@ -19,36 +19,47 @@ TEST spinlock_test(void) {
     PASS();
 }
 
-static int counter = 0;
+typedef struct {
+    int counter;
+    spinlock_t lock;
+} spinlock_test_t;
 
 int increment_counter(void *arg) {
-    spinlock_t *lock = (spinlock_t *)arg;
-    for (int i = 0; i < 1000; i++) {
-        spinlock_lock(lock);
-        counter++;
-        spinlock_unlock(lock);
+    spinlock_test_t *test = (spinlock_test_t *)arg;
+    for (int i = 0; i < 100000; i++) {
+        spinlock_lock(&test->lock);
+        test->counter++;
+        spinlock_unlock(&test->lock);
     }
     return 0;
 }
 
 TEST spinlock_multithread_test(void) {
-    thrd_t threads[10];
+    thrd_t threads[16];
 
-    spinlock_t lock = SPINLOCK_INIT;
+    spinlock_test_t *test = (spinlock_test_t *)malloc(sizeof(spinlock_test_t));
 
-    counter = 0;
-    for (int i = 0; i < 10; i++) {
-        ASSERT_EQ(thrd_success, thrd_create(&threads[i], increment_counter, &lock));
+    test->counter = 0;
+    spinlock_t lock;
+    spinlock_init(&lock);
+    test->lock = lock;
+
+    for (int i = 0; i < 16; i++) {
+        ASSERT_EQ(thrd_success, thrd_create(&threads[i], increment_counter, test));
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 16; i++) {
         thrd_join(threads[i], NULL);
     }
 
-    spinlock_lock(&lock);
-    ASSERT_FALSE(spinlock_trylock(&lock));
-    spinlock_unlock(&lock);
+    spinlock_lock(&test->lock);
+    ASSERT_FALSE(spinlock_trylock(&test->lock));
+    spinlock_unlock(&test->lock);
 
-    ASSERT_EQ(10000, counter); // 10 threads x 1000 increments each
+    printf("counter: %d\n", test->counter);
+
+    ASSERT_EQ(1600000, test->counter); // 10 threads x 1000 increments each
+
+    free(test);
 
     PASS();
 }

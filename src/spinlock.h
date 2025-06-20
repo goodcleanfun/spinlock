@@ -5,21 +5,27 @@
 #include <stdbool.h>
 #include "cpu_relax/cpu_relax.h"
 
-typedef atomic_flag spinlock_t;
-#define SPINLOCK_INIT ATOMIC_FLAG_INIT
+typedef atomic_uint_fast8_t spinlock_t;
+
+static inline void spinlock_init(spinlock_t *lock) {
+    atomic_init(lock, (uint8_t)false);
+}
+
 
 static inline void spinlock_lock(spinlock_t *lock) {
-    while (atomic_flag_test_and_set(lock)) {
-        cpu_relax();
+    while (atomic_exchange(lock, (uint8_t) true)) {
+        while (atomic_load(lock)) {
+            cpu_relax();
+        }
     }
 }
 
 static inline bool spinlock_trylock(spinlock_t *lock) {
-    return !atomic_flag_test_and_set(lock);
+    return !atomic_load(lock) && !atomic_exchange(lock, (uint8_t) true);
 }
 
 static inline void spinlock_unlock(spinlock_t *lock) {
-    atomic_flag_clear(lock);
+    atomic_store(lock, (uint8_t)false);
 }
 
 #endif /* SPINLOCK_H */
