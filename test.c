@@ -55,8 +55,6 @@ TEST spinlock_multithread_test(void) {
     ASSERT_FALSE(spinlock_trylock(&test->lock));
     spinlock_unlock(&test->lock);
 
-    printf("counter: %d\n", test->counter);
-
     ASSERT_EQ(1600000, test->counter); // 10 threads x 1000 increments each
 
     free(test);

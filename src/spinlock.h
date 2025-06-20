@@ -14,19 +14,22 @@ static inline void spinlock_init(spinlock_t *lock) {
 
 
 static inline void spinlock_lock(spinlock_t *lock) {
-    while (atomic_exchange(lock, (uint8_t) true)) {
-        while (atomic_load(lock)) {
+    while (true) {
+        if (!atomic_exchange_explicit(lock, (uint8_t) true, memory_order_acquire)) {
+            break;
+        }
+        while (atomic_load_explicit(lock, memory_order_relaxed)) {
             cpu_relax();
         }
     }
 }
 
 static inline bool spinlock_trylock(spinlock_t *lock) {
-    return !atomic_load(lock) && !atomic_exchange(lock, (uint8_t) true);
+    return !atomic_load_explicit(lock, memory_order_relaxed) && !atomic_exchange_explicit(lock, (uint8_t) true, memory_order_acquire);
 }
 
 static inline void spinlock_unlock(spinlock_t *lock) {
-    atomic_store(lock, (uint8_t)false);
+    atomic_store_explicit(lock, (uint8_t)false, memory_order_release);
 }
 
 #endif /* SPINLOCK_H */
