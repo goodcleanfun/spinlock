@@ -2,8 +2,8 @@
     "name": "spinlock",
     "version": "0.4.0",
     "repo": "goodcleanfun/spinlock",
-    "description": "Simple minimal spinlock using atomics",
-    "keywords": ["spinlock", "locking", "atomic", "cas", "concurrency", "threading"],
+    "description": "TTAS (test-and-test-and-set) spinlock using atomics",
+    "keywords": ["spinlock", "locking", "atomic", "tas", "ttas", "concurrency", "threading"],
     "license": "MIT",
     "development": {
         "silentbicycle/greatest": "*",

@@ -1,2 +1,2 @@
 # spinlock
-Simple minimal spinlock using atomics
+TTAS (test-and-test-and-set) spinlock using atomics
