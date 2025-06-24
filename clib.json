@@ -1,6 +1,6 @@
 {
     "name": "spinlock",
-    "version": "0.4.1",
+    "version": "0.5.0",
     "repo": "goodcleanfun/spinlock",
     "description": "TTAS (test-and-test-and-set) spinlock using atomics",
     "keywords": ["spinlock", "locking", "atomic", "tas", "ttas", "concurrency", "threading"],
