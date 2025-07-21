@@ -8,6 +8,8 @@
 
 typedef atomic_uint_fast8_t spinlock_t;
 
+#define MAX_PAUSE_ITERATIONS 40
+
 static inline void spinlock_init(spinlock_t *lock) {
     atomic_init(lock, (uint8_t)false);
 }
@@ -18,8 +20,14 @@ static inline void spinlock_lock(spinlock_t *lock) {
         if (!atomic_exchange_explicit(lock, (uint8_t) true, memory_order_acquire)) {
             break;
         }
-        while (atomic_load_explicit(lock, memory_order_relaxed)) {
+        for (int i = 0; i < MAX_PAUSE_ITERATIONS; i++) {
+            if (!atomic_load_explicit(lock, memory_order_relaxed)) {
+                break;
+            }
             cpu_relax();
+        }
+        while (atomic_load_explicit(lock, memory_order_relaxed)) {
+            thrd_yield();
         }
     }
 }
