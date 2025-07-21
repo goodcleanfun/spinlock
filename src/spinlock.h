@@ -20,14 +20,18 @@ static inline void spinlock_lock(spinlock_t *lock) {
         if (!atomic_exchange_explicit(lock, (uint8_t) true, memory_order_acquire)) {
             break;
         }
+        int spinlock_is_free = 0;
         for (int i = 0; i < MAX_PAUSE_ITERATIONS; i++) {
             if (!atomic_load_explicit(lock, memory_order_relaxed)) {
+                spinlock_is_free = 1;
                 break;
             }
             cpu_relax();
         }
-        while (atomic_load_explicit(lock, memory_order_relaxed)) {
-            thrd_yield();
+        if (!spinlock_is_free) {
+            while (atomic_load_explicit(lock, memory_order_relaxed)) {
+                thrd_yield();
+            }
         }
     }
 }
