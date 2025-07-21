@@ -20,10 +20,10 @@ static inline void spinlock_lock(spinlock_t *lock) {
         if (!atomic_exchange_explicit(lock, (uint8_t) true, memory_order_acquire)) {
             break;
         }
-        int spinlock_is_free = 0;
+        bool spinlock_is_free = false;
         for (int i = 0; i < MAX_PAUSE_ITERATIONS; i++) {
             if (!atomic_load_explicit(lock, memory_order_relaxed)) {
-                spinlock_is_free = 1;
+                spinlock_is_free = true;
                 break;
             }
             cpu_relax();
