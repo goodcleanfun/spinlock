@@ -5,6 +5,7 @@
 #include <stdatomic.h>
 #include <stdbool.h>
 #include "cpu_relax/cpu_relax.h"
+#include "threading/threading.h"
 
 typedef atomic_uint_fast8_t spinlock_t;
 
