@@ -6,11 +6,11 @@
     "keywords": ["spinlock", "locking", "atomic", "tas", "ttas", "concurrency", "threading"],
     "license": "MIT",
     "development": {
-        "silentbicycle/greatest": "*",
-        "goodcleanfun/threading": "*"
+        "silentbicycle/greatest": "*"
     },
     "dependencies": {
-        "goodcleanfun/cpu_relax": "*"
+        "goodcleanfun/cpu_relax": "*",
+        "goodcleanfun/threading": "*"
     },
     "src": [
       "src/spinlock.h"
