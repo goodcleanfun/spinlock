@@ -27,9 +27,14 @@ typedef struct {
 int increment_counter(void *arg) {
     spinlock_test_t *test = (spinlock_test_t *)arg;
     for (int i = 0; i < 100000; i++) {
-        spinlock_lock(&test->lock);
-        test->counter++;
-        spinlock_unlock(&test->lock);
+        if (spinlock_trylock(&test->lock)) {
+            test->counter++;
+            spinlock_unlock(&test->lock);
+        } else {
+            spinlock_lock(&test->lock);
+            test->counter++;
+            spinlock_unlock(&test->lock);
+        }
     }
     return 0;
 }
