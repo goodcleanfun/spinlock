@@ -9,7 +9,7 @@
 
 typedef atomic_uint_fast8_t spinlock_t;
 
-#define MAX_PAUSE_ITERATIONS 40
+#define SPINLOCK_MAX_PAUSE_ITERATIONS 40
 
 static inline void spinlock_init(spinlock_t *lock) {
     atomic_init(lock, (uint8_t)false);
@@ -22,7 +22,7 @@ static inline void spinlock_lock(spinlock_t *lock) {
             break;
         }
         bool spinlock_is_free = false;
-        for (int i = 0; i < MAX_PAUSE_ITERATIONS; i++) {
+        for (int i = 0; i < SPINLOCK_MAX_PAUSE_ITERATIONS; i++) {
             if (!atomic_load_explicit(lock, memory_order_relaxed)) {
                 spinlock_is_free = true;
                 break;
